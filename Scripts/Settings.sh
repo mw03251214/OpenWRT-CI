@@ -4,6 +4,11 @@
 
 #移除luci-app-attendedsysupgrade
 sed -i "/attendedsysupgrade/d" $(find ./feeds/luci/collections/ -type f -name "Makefile")
+#修复argon主题ucode兼容性
+find ./feeds/luci/themes/luci-theme-argon/ -type f -name "*.ut" 2>/dev/null | while read f; do
+  sed -i "s/import { srand } from 'math';//" "$f"
+done
+
 #修改默认主题
 sed -i "s/luci-theme-bootstrap/luci-theme-$WRT_THEME/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改immortalwrt.lan关联IP
